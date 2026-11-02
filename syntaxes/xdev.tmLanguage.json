@@ -1,0 +1,797 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "xDev",
+  "scopeName": "source.xdev",
+  "fileTypes": [
+    "prg",
+    "ch"
+  ],
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#preprocessor"
+    },
+    {
+      "include": "#dll-declaration"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#bracket-string"
+    },
+    {
+      "include": "#continuation"
+    },
+    {
+      "include": "#class"
+    },
+    {
+      "include": "#enum"
+    },
+    {
+      "include": "#declaration"
+    },
+    {
+      "include": "#command"
+    },
+    {
+      "include": "#number"
+    },
+    {
+      "include": "#constant"
+    },
+    {
+      "include": "#codeblock"
+    },
+    {
+      "include": "#macro"
+    },
+    {
+      "include": "#alias"
+    },
+    {
+      "include": "#if-statement"
+    },
+    {
+      "include": "#builtin-function"
+    },
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#operator"
+    },
+    {
+      "include": "#function-call"
+    },
+    {
+      "include": "#identifier"
+    }
+  ],
+  "repository": {
+    "enum": {
+      "patterns": [
+        {
+          "name": "meta.enum.xdev",
+          "begin": "(?i)^\\s*(enum)\\b(?:\\s+([A-Za-z_]\\w*))?",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.xdev"
+            },
+            "2": {
+              "name": "entity.name.type.enum.xdev"
+            }
+          },
+          "end": "(?i)^\\s*(endenum)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.xdev"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#number"
+            },
+            {
+              "include": "#operator"
+            },
+            {
+              "name": "variable.other.enummember.xdev",
+              "match": "\\b[A-Za-z_]\\w*\\b"
+            }
+          ]
+        }
+      ]
+    },
+    "dll-declaration": {
+      "patterns": [
+        {
+          "name": "meta.declaration.dll.xdev",
+          "begin": "(?i)^\\s*(dll)\\s+(?:(static)\\s+)?(function|procedure)\\s+([A-Za-z_]\\w*)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.declaration.xdev"
+            },
+            "2": {
+              "name": "keyword.declaration.xdev"
+            },
+            "3": {
+              "name": "keyword.declaration.xdev"
+            },
+            "4": {
+              "name": "entity.name.function.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#continuation"
+            },
+            {
+              "match": "(?i)\\b(as)\\s+([A-Za-z_]\\w*)",
+              "captures": {
+                "1": {
+                  "name": "keyword.declaration.xdev"
+                },
+                "2": {
+                  "name": "keyword.declaration.xdev"
+                }
+              }
+            },
+            {
+              "match": "(?i)\\b(from)\\s+([A-Za-z_]\\w*|'[^'\\n]*'|\"[^\"\\n]*\")",
+              "captures": {
+                "1": {
+                  "name": "keyword.declaration.xdev"
+                },
+                "2": {
+                  "name": "entity.name.function.xdev"
+                }
+              }
+            },
+            {
+              "name": "keyword.declaration.xdev",
+              "match": "(?i)\\b(?:lib|pascal)\\b"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "include": "#number"
+            },
+            {
+              "include": "#constant"
+            },
+            {
+              "include": "#operator"
+            },
+            {
+              "include": "#identifier"
+            }
+          ]
+        }
+      ]
+    },
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.xdev",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.line.double-ampersand.xdev",
+          "match": "&&.*$"
+        },
+        {
+          "name": "comment.line.asterisk.xdev",
+          "match": "^\\s*\\*.*$"
+        },
+        {
+          "name": "comment.line.note.xdev",
+          "match": "(?i)^\\s*note\\b.*$"
+        },
+        {
+          "name": "comment.block.xdev",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "preprocessor": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.include.xdev",
+          "match": "(?i)^\\s*(#)\\s*(include)\\b\\s*(<[^>\\n]*>|\"[^\"\\n]*\"|'[^'\\n]*')?",
+          "captures": {
+            "1": {
+              "name": "keyword.control.directive.xdev punctuation.definition.directive.xdev"
+            },
+            "2": {
+              "name": "keyword.control.directive.xdev"
+            },
+            "3": {
+              "name": "string.quoted.other.include.xdev"
+            }
+          }
+        },
+        {
+          "name": "meta.preprocessor.rule.xdev",
+          "begin": "(?i)^\\s*(#)\\s*(command|xcommand|translate|xtranslate)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.directive.xdev punctuation.definition.directive.xdev"
+            },
+            "2": {
+              "name": "keyword.control.directive.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "include": "#continuation"
+            },
+            {
+              "name": "keyword.operator.rule.xdev",
+              "match": "=>"
+            },
+            {
+              "name": "variable.parameter.marker.xdev",
+              "match": "<[(\\\"{.]?[A-Za-z_]\\w*[^<>\\n]*>"
+            }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.xdev",
+          "begin": "(?i)^\\s*(#)\\s*(define)\\s+([A-Za-z_]\\w*)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.directive.xdev punctuation.definition.directive.xdev"
+            },
+            "2": {
+              "name": "keyword.control.directive.xdev"
+            },
+            "3": {
+              "name": "support.constant.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "include": "$self"
+            }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.xdev",
+          "begin": "(?i)^\\s*(#)\\s*(define|undef|ifdef|ifndef|if|elif|else|endif|error|stdout)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.directive.xdev punctuation.definition.directive.xdev"
+            },
+            "2": {
+              "name": "keyword.control.directive.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "include": "$self"
+            }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.xdev",
+          "match": "^\\s*#.*$"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.xdev",
+          "begin": "(?i)(e)(\")",
+          "beginCaptures": {
+            "1": {
+              "name": "constant.character.escape.xdev"
+            },
+            "2": {
+              "name": "punctuation.definition.string.begin.xdev"
+            }
+          },
+          "end": "\"|$",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.xdev"
+            }
+          },
+          "applyEndPatternLast": true,
+          "patterns": [
+            {
+              "name": "constant.character.escape.xdev",
+              "match": "\\\\(?:[nt\\\\\"])"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.xdev",
+          "begin": "(?i)(e)(')",
+          "beginCaptures": {
+            "1": {
+              "name": "constant.character.escape.xdev"
+            },
+            "2": {
+              "name": "punctuation.definition.string.begin.xdev"
+            }
+          },
+          "end": "'|$",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.xdev"
+            }
+          },
+          "applyEndPatternLast": true,
+          "patterns": [
+            {
+              "name": "constant.character.escape.xdev",
+              "match": "\\\\(?:[nt\\\\'])"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.xdev",
+          "begin": "\"",
+          "end": "\"|$"
+        },
+        {
+          "name": "string.quoted.single.xdev",
+          "begin": "'",
+          "end": "'|$"
+        }
+      ]
+    },
+    "bracket-string": {
+      "patterns": [
+        {
+          "name": "string.quoted.other.bracket.xdev",
+          "begin": "(?<=[(,=+\\-*/%^<>$#!{|?])\\s*\\[",
+          "end": "\\]|$"
+        }
+      ]
+    },
+    "class": {
+      "patterns": [
+        {
+          "name": "meta.class.xdev",
+          "begin": "(?i)^\\s*(create)\\s+(class)\\s+([A-Za-z_]\\w*)(?:\\s+(from)\\s+([A-Za-z_][\\w\\s,]*))?",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.declaration.xdev"
+            },
+            "2": {
+              "name": "storage.type.class.xdev"
+            },
+            "3": {
+              "name": "entity.name.type.class.xdev"
+            },
+            "4": {
+              "name": "keyword.declaration.xdev"
+            },
+            "5": {
+              "name": "entity.other.inherited-class.xdev"
+            }
+          },
+          "end": "(?i)^\\s*(endclass)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.declaration.xdev"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "name": "storage.modifier.xdev",
+              "match": "(?i)^\\s*(?:exported|protected|hidden)\\s*:"
+            },
+            {
+              "match": "(?i)^\\s*(data|classdata)\\s+([A-Za-z_]\\w*)",
+              "captures": {
+                "1": {
+                  "name": "keyword.declaration.xdev"
+                },
+                "2": {
+                  "name": "variable.other.member.xdev"
+                }
+              }
+            },
+            {
+              "match": "(?i)^\\s*(method|classmethod|access|assign|destructor|virtual|delegate|message|on\\s+error|error\\s+handler)\\s+([A-Za-z_]\\w*)",
+              "captures": {
+                "1": {
+                  "name": "keyword.declaration.xdev"
+                },
+                "2": {
+                  "name": "entity.name.function.xdev"
+                }
+              }
+            },
+            {
+              "name": "storage.modifier.xdev",
+              "match": "(?i)\\b(?:init|is|to|operator|readonly|shared|virtual)\\b"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        }
+      ]
+    },
+    "declaration": {
+      "patterns": [
+        {
+          "match": "(?i)^\\s*(?:(static|init|exit)\\s+)?(function|procedure)\\s+([A-Za-z_]\\w*)",
+          "captures": {
+            "1": {
+              "name": "keyword.declaration.xdev"
+            },
+            "2": {
+              "name": "keyword.declaration.xdev"
+            },
+            "3": {
+              "name": "entity.name.function.xdev"
+            }
+          }
+        },
+        {
+          "match": "(?i)^\\s*(method|classmethod|access|assign|destructor|onerror)\\s+([A-Za-z_]\\w*)",
+          "captures": {
+            "1": {
+              "name": "keyword.declaration.xdev"
+            },
+            "2": {
+              "name": "entity.name.function.xdev"
+            }
+          }
+        },
+        {
+          "match": "(?i)(?<=\\))\\s*(class)\\s+([A-Za-z_]\\w*)",
+          "captures": {
+            "1": {
+              "name": "keyword.declaration.xdev"
+            },
+            "2": {
+              "name": "entity.name.type.class.xdev"
+            }
+          }
+        }
+      ]
+    },
+    "continuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.continuation.xdev",
+          "match": ";\\s*$"
+        },
+        {
+          "name": "punctuation.terminator.statement.xdev",
+          "match": ";"
+        }
+      ]
+    },
+    "command": {
+      "patterns": [
+        {
+          "name": "meta.command.text.xdev",
+          "begin": "(?i)^\\s*(text)\\b(?!\\(|\\s*(?::=|[-+*/%^]?=|->|:|\\[))",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            }
+          },
+          "end": "(?i)^\\s*(endtext)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            }
+          },
+          "contentName": "string.unquoted.text.xdev"
+        },
+        {
+          "name": "meta.command.goto.xdev",
+          "match": "(?i)^\\s*(go(?:to)?)\\s+(top|bottom)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            },
+            "2": {
+              "name": "keyword.other.clause.xdev"
+            }
+          }
+        },
+        {
+          "name": "meta.command.at.xdev",
+          "begin": "^\\s*(@)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "name": "keyword.other.clause.xdev",
+              "match": "(?i)\\b(?:say|get|picture|valid|when|color|colour|to|box|double|clear|prompt|message|range|caption|send|checkbox|listbox|pushbutton|radiogroup|tbrowse)\\b"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        },
+        {
+          "name": "meta.command.print.xdev",
+          "match": "^\\s*(\\?{1,2})",
+          "captures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            }
+          }
+        },
+        {
+          "name": "meta.command.set.xdev",
+          "begin": "(?i)^\\s*(set)\\s+([A-Za-z_]\\w*)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            },
+            "2": {
+              "name": "keyword.other.command.set.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "name": "keyword.other.clause.xdev",
+              "match": "(?i)\\b(?:all|rest|next|record|for|while|to|into|from|with|on|off|like|except|blank|tag|unique|descending|ascending|alias|new|exclusive|shared|readonly|via|delimited|sdf|structure|extended|fields|additive|index|file|printer|screen|gets|top|bottom|form|databases|indexes|alternate|format|typeahead|prompt|message)\\b"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        },
+        {
+          "name": "meta.command.xdev",
+          "begin": "(?i)^\\s*(accept|append|average|call|cancel|clear|close|cls|commit|continue|copy|count|create|delete|dir|display|eject|erase|find|go|goto|index|join|keyboard|label|list|locate|menu|pack|quit|read|recall|reindex|rename|replace|report|restore|run|save|seek|select|skip|sort|store|sum|total|type|unlock|update|use|wait|zap)\\b(?!\\(|\\s*(?::=|[-+*/%^]?=|->|:|\\[))",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.command.xdev"
+            }
+          },
+          "end": "(?<!;)$",
+          "patterns": [
+            {
+              "name": "keyword.other.clause.xdev",
+              "match": "(?i)\\b(?:all|rest|next|record|for|while|to|into|from|with|on|off|like|except|blank|tag|unique|descending|ascending|alias|new|exclusive|shared|readonly|via|delimited|sdf|structure|extended|fields|additive|index|file|printer|screen|gets|top|bottom|form|databases|indexes|alternate|format|typeahead|prompt|message)\\b"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.xdev",
+          "match": "\\b0[xX][0-9A-Fa-f]+\\b"
+        },
+        {
+          "name": "constant.numeric.float.xdev",
+          "match": "\\b\\d+\\.\\d+(?:[eE][+-]?\\d+)?\\b|(?<![\\w.])\\.\\d+(?:[eE][+-]?\\d+)?\\b|\\b\\d+(?:[eE][+-]?\\d+)\\b"
+        },
+        {
+          "name": "constant.numeric.integer.xdev",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "constant": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.xdev",
+          "match": "(?i)\\.(?:t|f)\\."
+        },
+        {
+          "name": "support.constant.xdev",
+          "match": "\\b_?[A-Z][A-Z0-9]*_[A-Z0-9_]*\\b"
+        },
+        {
+          "name": "constant.language.nil.xdev",
+          "match": "(?i)\\bnil\\b"
+        },
+        {
+          "name": "variable.language.xdev",
+          "match": "(?i)\\b(?:self|super)\\b"
+        }
+      ]
+    },
+    "codeblock": {
+      "patterns": [
+        {
+          "name": "meta.codeblock.xdev",
+          "match": "(\\{)\\s*(\\|)([^|\\n]*)(\\|)",
+          "captures": {
+            "1": {
+              "name": "punctuation.section.codeblock.begin.xdev"
+            },
+            "2": {
+              "name": "punctuation.separator.codeblock.xdev"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "name": "variable.parameter.xdev",
+                  "match": "[A-Za-z_]\\w*"
+                }
+              ]
+            },
+            "4": {
+              "name": "punctuation.separator.codeblock.xdev"
+            }
+          }
+        }
+      ]
+    },
+    "macro": {
+      "patterns": [
+        {
+          "name": "meta.macro.xdev",
+          "match": "(&)([A-Za-z_]\\w*)(\\.)?",
+          "captures": {
+            "1": {
+              "name": "keyword.operator.macro.xdev"
+            },
+            "2": {
+              "name": "variable.other.macro.xdev"
+            },
+            "3": {
+              "name": "keyword.operator.macro.xdev"
+            }
+          }
+        },
+        {
+          "name": "keyword.operator.macro.xdev",
+          "match": "&(?=\\()"
+        }
+      ]
+    },
+    "alias": {
+      "patterns": [
+        {
+          "name": "meta.alias.xdev",
+          "match": "(?i)\\b(m|field|_field|memvar)\\s*(->)",
+          "captures": {
+            "1": {
+              "name": "variable.language.alias.xdev"
+            },
+            "2": {
+              "name": "keyword.operator.alias.xdev"
+            }
+          }
+        },
+        {
+          "name": "meta.alias.xdev",
+          "match": "\\b([A-Za-z_]\\w*)\\s*(->)",
+          "captures": {
+            "1": {
+              "name": "entity.name.alias.xdev"
+            },
+            "2": {
+              "name": "keyword.operator.alias.xdev"
+            }
+          }
+        }
+      ]
+    },
+    "if-statement": {
+      "patterns": [
+        {
+          "match": "(?i)^[ \\t]*(if)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.xdev"
+            }
+          }
+        }
+      ]
+    },
+    "builtin-function": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.xdev",
+          "match": "(?i)(?<!:)\\b(?:aadd|abs|achoice|aclone|acopy|acos|addascii|addmonth|adel|adir|aeval|aexpressions|afields|afill|afteratnum|ains|alenalloc|alert|alias|alltrim|altd|ampm|ansitohtml|ansitooem|anytype|aparams|argc|argcheck|argstring|argv|array|arrayblock|arrayid|arraytostructure|asc|ascan|asciisum|ascpos|asin|asize|asizealloc|asort|at|atadjust|atail|atan|atn2|atnum|atokens|atrepl|atskipstrings|attoken|atx|backgroundactive|backgroundadd|backgrounddel|backgroundreset|backgroundrun|backgroundtime|base64decode|base64decodefile|base64encode|base64encodefile|beforatnum|bin2f|bin2i|bin2l|bin2u|bin2w|bitand|bitisset|bitnot|bitor|bitreset|bitset|bitshift|bittoc|bitxor|blank|bldlogmsg|blobdirectexport|blobdirectget|blobdirectimport|blobdirectput|blobexport|blobget|blobimport|blobrootdelete|blobrootget|blobrootlock|blobrootput|blobrootunlock|bof|bom|boq|boy|break|browse|builddate|buildinfo|calldll|cdow|ceiling|celsius|center|cftsadd|cftsclose|cftscrea|cftsdelete|cftsifdel|cftsnext|cftsopen|cftsrecn|cftsreplac|cftsset|cftsundel|cftsveri|cftsvers|charadd|charand|chareven|charhist|charlist|charmirr|charmix|charnolist|charnot|charodd|charone|charonly|charor|charpack|charrela|charrelrep|charrem|charrepl|charrll|charrlr|charshl|charshr|charslist|charsort|charspread|charsub|charswap|charunpack|charwin|charxor|checksum|chr|clearbit|cleareol|clearslow|clearwin|cleol|clocks2secs|closeprocess|clrarea|clwin|cmdargargv|cmonth|col|colorindex|colorrepl|colorselect|colorton|colorwin|compiler|complement|compress|compressbuflen|compresserror|compresserrordesc|consolelock|consoleunlock|convtoansicp|convtooemcp|cos|cosh|cot|countgets|countleft|countright|crc32|createlen8|createobject|crypt|csetatmupa|csetcent|csetcurs|csetkey|csetref|csetsafety|cstr|cstrtoval|ctobit|ctod|ctodow|ctof|ctomonth|cton|ctot|curdir|curdirx|curdrive|currentget|date|datetime|day|days|daysinmonth|daystomonth|dbappend|dbclearfilter|dbclearindex|dbclearrelation|dbcloseall|dbclosearea|dbcommit|dbcommitall|dbcopyextstruct|dbcopystruct|dbcreate|dbcreateindex|dbdelete|dbedit|dbeval|dbexportcsv|dbf|dbfieldinfo|dbfileget|dbfileput|dbfilter|dbfsize|dbgobottom|dbgoto|dbgotop|dbimportcsv|dbinfo|dbjoin|dblist|dborderinfo|dbrecall|dbrecordinfo|dbreindex|dbrelation|dbrlock|dbrlocklist|dbrselect|dbrunlock|dbseek|dbselectarea|dbsetdriver|dbsetfilter|dbsetindex|dbsetorder|dbsetrelation|dbskip|dbskipper|dbsort|dbstruct|dbtableext|dbtotal|dbunlock|dbunlockall|dbupdate|dbusearea|decode|decodeorempty|decrypt|default|defaultvalue|defpath|deleted|deletefile|descend|deserialbegin|deserialize|deserializesimple|deserialnext|devout|devoutext|devoutpict|devoutpictext|devpos|dirbuild|dirchange|directory|directoryrecurse|direxists|dirmake|dirname|dirremove|dirseptoos|dirspace|dirunbuild|disablewaitlocks|diskchange|diskformat|diskfree|diskname|diskready|diskreadyw|diskspace|disktotal|diskused|dispbegin|dispbox|dispboxext|dispcount|dispend|dispout|dispoutat|dispoutatext|dispoutatsetpos|dispoutext|dllcall|dllexecutecall|dllload|dllpreparecall|dllunload|dmy|doserror|dosparam|dow|doy|drivetype|dtoc|dtor|dtos|dumpvar|elaptime|empty|enhanced|enumindex|eof|eol|eom|eoq|eoy|errorblock|errorlevel|errornew|errorsys|eval|exec|execfromarray|exename|exp|expand|exponent|f2bin|f_eof|fact|fahrenheit|fcharcount|fclose|fcommit|fcount|fcreate|feof|ferase|ferror|fgobottom|fgoto|fgotop|fieldblock|fielddec|fielddeci|fieldget|fieldlen|fieldname|fieldnum|fieldpos|fieldput|fieldsize|fieldtype|fieldwblock|fieldxml|file|fileappend|fileattr|fileattrget|fileattrset|filecclose|fileccont|fileclose|filecommit|fileconfig|filecopen|filecopy|filecopyex|filedate|filedelete|fileeof|fileerase|fileerror|fileexists|fileflush|filehandle|fileislocal|filelink|filelinkread|filelinksym|fileload|filelock|filelocktest|filemove|filenameexists|fileopen|fileread|filereadat|filereader|filereadlen|filerename|filesave|filescreen|fileseek|filesize|filestats|filestr|filetemp|filetime|filetimeget|filetimeset|filetrunc|fileunlock|filevalid|filewrite|filewriteat|filewriter|finfo|fklabel|fkmax|flastrec|flinecount|flock|floor|floppytype|fnamemerge|fnamesplit|fopen|found|fparse|fparseex|fparseline|fread|freadandskip|freadline|freadln|freadstr|frecno|freelibrary|frename|fseek|fselect|fsize|fskip|ftempcreate|ftoc|funcptr|fuse|fv|fwordcount|fwrite|gbmpdisp|gbmpload|gcall|gcstep|gellipse|getactive|getactiveobject|getapplykey|getcleara|getclearb|getclrback|getclrfore|getclrpair|getcurrentthread|getdefaultprinter|getdosetkey|gete|getenv|getfldcol|getfldrow|getfldvar|getlasterror|getlen8|getpairlen|getpairpos|getpostvalidate|getprec|getprevalidate|getprinters|getprocaddress|getreader|getregistry|getsecret|getsystemthreadid|getthreadid|getvolinfo|gfnterase|gfntload|gfntset|gframe|gfxprimitive|gfxtext|ggetpixel|gline|gmode|gpolygon|gputpixel|grect|gsetclip|gsetexcl|gsetpal|gtglfw|gtinfo|gtsdl3|gtversion|guiapplykey|guigetpostvalidate|guigetprevalidate|guireader|gwriteat|haadelat|haagetkeyat|haagetpos|haagetrealpos|haagetvalueat|haasetvalueat|hallocate|hardcr|hash|hclone|hcopy|hdel|hdelat|header|heval|hextonum|hextostr|hfill|hget|hgetaacompatibility|hgetautoadd|hgetcasematch|hgetkeyat|hgetkeys|hgetpairat|hgetpartition|hgetpos|hgetvaapos|hgetvalueat|hgetvalues|hhaskey|hmerge|hour|hs_add|hs_close|hs_create|hs_delete|hs_filter|hs_ifdel|hs_index|hs_keycount|hs_next|hs_open|hs_replace|hs_set|hs_undelete|hs_verify|hs_version|hscan|hset|hsetaacompatibility|hsetautoadd|hsetcasematch|hsetpartition|hsetvalueat|htmltoansi|htmltooem|i2bin|idleadd|idledel|idlereset|idlesleep|idlesleepmsec|idlestate|idlewaitnocpu|if|iif|indexext|indexkey|indexord|inetaccept|inetaddress|inetcleanup|inetclearerror|inetclearperiodcallback|inetcleartimeout|inetclose|inetconnect|inetconnectip|inetcount|inetcreate|inetcrlf|inetdataready|inetdgram|inetdgrambind|inetdgramrecv|inetdgramsend|ineterrorcode|ineterrordesc|inetgetalias|inetgethosts|inetgetperiodcallback|inetgettimeout|inetinit|inetport|inetrecv|inetrecvall|inetrecvendblock|inetrecvline|inetsend|inetsendall|inetserver|inetsetperiodcallback|inetsettimeout|infinity|inkey|int|invertattr|invertwin|isaffirm|isalnum|isalpha|isarray|isascii|isbit|isblock|ischaracter|iscntrl|iscolor|isdate|isdatetime|isdefcolor|isdigit|isdir|isdirectory|isdisk|isgraph|ishash|isleap|islocked|islogical|islower|ismemo|isnegative|isnil|isnull|isnumber|isobject|isprint|isprinter|ispunct|isregexstring|issamethread|isspace|isupper|isvalidthread|isxdigit|jointhread|justleft|justright|kbdstat|keychar|keymod|keyput|keysec|keystd|keytime|killallthreads|killthread|ksetcaps|ksetins|ksetnum|ksetscroll|l2bin|langerrmsg|langmessage|langname|langselect|lastdayom|lastkey|lastrec|left|len|lennum|libdo|libfree|libload|loadlibrary|log|log10|logdatestamp|lower|ltoc|lton|ltrim|lupdate|macrocompile|makedir|mantissa|max|maxcol|maxline|maxrow|mcol|md5|md5file|mdblclk|mdy|memoedit|memoline|memoread|memory|memosetsuper|memotran|memowrit|memvarblock|menumodal|mhide|millisec|min|minute|mlcount|mlctopos|mleftdown|mlpos|mod|month|mpostolc|mpresent|mreststate|mrightdown|mrow|msavestate|msetbounds|msetclip|msetcursor|msetpos|mshow|mstate|multithread|mutexcreate|mutexlock|mutextimeoutlock|mutextrylock|mutexunlock|nationmsg|netappend|netcancel|netcommitall|netdbuse|netdelete|netdisk|neterr|neterror|netfilelock|netfunc|netlock|netname|netopenfiles|netprinter|netrecall|netreclock|netredir|netrmtname|network|nextkey|nnetwork|nosnow|notify|notifyall|ntoc|ntocdow|ntocmonth|ntocolor|nul|numand|numandx|numat|numbuttons|numcount|numdiskl|numhigh|numline|numlow|nummirr|nummirrx|numnot|numnotx|numor|numorx|numrol|numrolx|numtohex|numtoken|numxor|numxorx|objmsgptr|occurs|oemtoansi|oemtohtml|ole2txterror|oleerror|openprocess|ordbagext|ordbagname|ordcond|ordcondset|ordcount|ordcreate|ordcustom|orddescend|orddestroy|ordfindrec|ordfor|ordisunique|ordkey|ordkeyadd|ordkeycount|ordkeydel|ordkeygoto|ordkeyno|ordkeyrelpos|ordkeyval|ordlistadd|ordlistclear|ordlistrebuild|ordname|ordnumber|ordscope|ordsetfocus|ordsetrelation|ordskipraw|ordskipunique|ordwildseek|os|os_iswin2000|os_iswin2000_or_later|os_iswin2003|os_iswin95|os_iswin98|os_iswin9x|os_iswinme|os_iswinnt|os_iswinnt351|os_iswinnt4|os_iswinvista|os_iswinxp|os_iswtsclient|os_netregok|os_netvredirok|os_versioninfo|osdriveseparator|oserror|osnewline|ospathdelimiters|ospathlistseparator|ospathseparator|outerr|outstd|pad|padc|padl|padleft|padr|padright|payment|pcodever|pcol|pcount|periods|pi|pointer2string|posalpha|poschar|posdel|posdiff|posequal|posins|poslower|posrange|posrepl|posupper|prgexptoval|printerexists|printerporttoname|printfileraw|printready|printsend|printstat|processvalue|procfile|procline|procname|prow|pv|pvalue|qout|qqout|qself|quarter|queryregistry|qwith|random|randomint|randomseed|rangerem|rangerepl|rascan|rat|rate|rddlist|rddname|rddregister|rddsetdefault|readexit|readformat|readini|readinsert|readkey|readkill|readline|readmodal|readupdated|readvar|reccount|recno|recsize|regex|regexall|regexatx|regexcomp|regexmatch|regexreplace|regexsplit|remall|remleft|remright|renamefile|replall|replicate|replleft|replright|resetwith|restcursor|restgets|restoreblock|restscreen|restsetkey|resttoken|right|rlock|round|row|rtod|rtrim|saveblock|savecursor|savegets|savescreen|savesetkey|savetoken|saydown|saymovein|sayscreen|sayspread|screenattr|screenfile|screenmark|screenmix|screenstr|scroll|scrollfixed|seconds|secondscpu|secondssleep|secs|sectotime|select|serialize|serializesimple|serialnext|set|setatlike|setbit|setblink|setcancel|setcleara|setclearb|setclrpair|setcodepage|setcolor|setcolorext|setcursor|setdate|seterrormode|setfattr|setfcreate|setfdati|setinicomment|setkey|setkeyarray|setkeycheck|setkeyget|setkeysave|setlasterror|setlastkey|setmacro|setmode|setmouse|setnetdelay|setnetmsgcolor|setnewdate|setnewtime|setpos|setposbs|setprc|setprec|setregistry|settime|setwith|shadow|showtime|sign|sin|sinh|sizeofcstructure|soundex|space|sqrt|standard|startthread|stod|stopthread|stot|str|strdel|strdiff|strfile|string2pointer|stringtoliteral|strpeek|strpoke|strscreen|strswap|strtohex|strtran|structuretoarray|strzero|stuff|subscribe|subscribenow|substr|sx_decrypt|sx_dtop|sx_encrypt|sx_fcompress|sx_fdecompress|sx_ptod|syslogclose|syslogmessage|syslogopen|tabexpand|tabpack|tan|tanh|tbrowsedb|thisarray|threadsleep|throw|thtmlcleanup|thtmlinit|thtmlisvalid|time|timetosec|timevalid|token|tokenat|tokenend|tokenexit|tokeninit|tokenlower|tokennext|tokennum|tokensep|tokenupper|tone|tracelog|transform|translate|trim|truename|tstring|ttoc|ttos|type|u2bin|uat|uchars|uleft|ulen|uncompress|unselected|untextwin|upadc|upadl|upadr|updated|upper|uright|used|usrrdd_areadata|usrrdd_arearesult|usrrdd_id|usrrdd_rdddata|usrrdd_setbof|usrrdd_setbottom|usrrdd_seteof|usrrdd_setfound|usrrdd_settop|ustuff|usubstr|uudecode|uudecodefile|uuencode|uuencodefile|val|valpos|valtoprg|valtoprgexp|valtostr|valtype|version|vmexecute|vmmode|volserial|volume|w2bin|waclose|waitforthreads|waitperiod|wboard|wbox|wcenter|wclose|wcol|week|wfcol|wflastcol|wflastrow|wformat|wfrow|wild2regex|wildmatch|winfo|withobjectcounter|wlastcol|wlastrow|wmode|wmove|wmsetpos|wnum|wom|wopen|word|wordone|wordonly|wordrem|wordrepl|wordswap|wordtochar|writeini|wrow|wselect|wsetmouse|wsetmove|wsetshadow|wstack|wstep|xmlerrordesc|xtoc|year)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.control.xdev",
+          "match": "(?i)\\b(?:if|elseif|else|endif|end|do|while|enddo|for|in|to|step|next|endfor|loop|exit|break|switch|case|endcase|otherwise|endswitch|enum|endenum|begin|sequence|recover|using|endsequence|with)\\b"
+        },
+        {
+          "name": "keyword.declaration.xdev",
+          "match": "(?i)\\b(?:function|procedure|return|local|static|field|request|external|announce|as|ptr|psz|int8|int16|int32|int64|uint8|uint16|uint32|uint64|int|float32|float64|float|logic|string|any|null)\\b"
+        }
+      ]
+    },
+    "operator": {
+      "patterns": [
+        {
+          "name": "keyword.operator.alias.xdev",
+          "match": "->"
+        },
+        {
+          "name": "keyword.control.logical.xdev",
+          "match": "(?i)\\.(?:and|or|not)\\.|!(?!=)"
+        },
+        {
+          "name": "keyword.operator.assignment.xdev",
+          "match": ":=|\\+=|-=|\\*=|/=|%=|\\^="
+        },
+        {
+          "name": "keyword.operator.comparison.xdev",
+          "match": "==|!=|<=|>=|<>|#|<|>|\\$"
+        },
+        {
+          "name": "keyword.operator.arithmetic.xdev",
+          "match": "\\+\\+|--|\\*\\*|[+\\-*/%^=]"
+        },
+        {
+          "name": "keyword.operator.self.xdev",
+          "match": "::"
+        },
+        {
+          "name": "punctuation.accessor.xdev",
+          "match": ":"
+        },
+        {
+          "name": "keyword.operator.reference.xdev",
+          "match": "@(?=[A-Za-z_])"
+        }
+      ]
+    },
+    "function-call": {
+      "patterns": [
+        {
+          "name": "entity.name.function.xdev",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "identifier": {
+      "patterns": [
+        {
+          "name": "variable.other.xdev",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

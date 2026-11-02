@@ -1,0 +1,65 @@
+{
+  "name": "vscode-xdev",
+  "displayName": "xDev",
+  "description": "Syntax highlighting, function hints and snippets for the xDev language (xBase compatible).",
+  "version": "0.0.0",
+  "publisher": "xDev-Language",
+  "icon": "media/xdev-128.png",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xDev-Language/vscode-xDev"
+  },
+  "homepage": "https://github.com/xDev-Language/vscode-xDev#readme",
+  "bugs": {
+    "url": "https://github.com/xDev-Language/vscode-xDev/issues"
+  },
+  "main": "./extension.js",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "xdev",
+        "aliases": [
+          "xDev",
+          "xdev",
+          "xBase"
+        ],
+        "extensions": [
+          ".prg",
+          ".ch"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "xdev",
+        "scopeName": "source.xdev",
+        "path": "./syntaxes/xdev.tmLanguage.json",
+        "unbalancedBracketScopes": [
+          "comment",
+          "string"
+        ]
+      }
+    ],
+    "snippets": [
+      {
+        "language": "xdev",
+        "path": "./snippets/xdev.json"
+      }
+    ]
+  },
+  "keywords": [
+    "xdev",
+    "xBase",
+    "xbase",
+    "dbase",
+    "prg"
+  ]
+}

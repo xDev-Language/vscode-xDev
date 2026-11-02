@@ -1,0 +1,602 @@
+{
+  "If block (lowercase)": {
+    "prefix": [
+      "if"
+    ],
+    "body": [
+      "if ${1:cond}",
+      "\t$0",
+      "endif"
+    ],
+    "description": "if ... endif block"
+  },
+  "If block (uppercase)": {
+    "prefix": [
+      "IF"
+    ],
+    "body": [
+      "IF ${1:cond}",
+      "\t$0",
+      "ENDIF"
+    ],
+    "description": "IF ... ENDIF block"
+  },
+  "If/Else block (lowercase)": {
+    "prefix": [
+      "ifelse"
+    ],
+    "body": [
+      "if ${1:cond}",
+      "\t${2}",
+      "else",
+      "\t${3}",
+      "endif$0"
+    ],
+    "description": "if ... else ... endif block"
+  },
+  "If/Else block (uppercase)": {
+    "prefix": [
+      "IFELSE"
+    ],
+    "body": [
+      "IF ${1:cond}",
+      "\t${2}",
+      "ELSE",
+      "\t${3}",
+      "ENDIF$0"
+    ],
+    "description": "IF ... ELSE ... ENDIF block"
+  },
+  "For loop (lowercase)": {
+    "prefix": [
+      "for"
+    ],
+    "body": [
+      "for ${1:i} := ${2:1} to ${3:n}",
+      "\t$0",
+      "endfor"
+    ],
+    "description": "for ... endfor loop"
+  },
+  "For loop (uppercase)": {
+    "prefix": [
+      "FOR"
+    ],
+    "body": [
+      "FOR ${1:i} := ${2:1} TO ${3:n}",
+      "\t$0",
+      "ENDFOR"
+    ],
+    "description": "FOR ... ENDFOR loop"
+  },
+  "Function (lowercase)": {
+    "prefix": [
+      "function"
+    ],
+    "body": [
+      "function ${1:Name}(${2:})",
+      "\t${3}",
+      "return ${0}"
+    ],
+    "description": "function ... return"
+  },
+  "Function (uppercase)": {
+    "prefix": [
+      "FUNCTION"
+    ],
+    "body": [
+      "FUNCTION ${1:Name}(${2:})",
+      "\t${3}",
+      "RETURN ${0}"
+    ],
+    "description": "FUNCTION ... RETURN"
+  },
+  "Procedure (lowercase)": {
+    "prefix": [
+      "procedure"
+    ],
+    "body": [
+      "procedure ${1:Name}(${2:})",
+      "\t$0",
+      "return"
+    ],
+    "description": "procedure ... return"
+  },
+  "Procedure (uppercase)": {
+    "prefix": [
+      "PROCEDURE"
+    ],
+    "body": [
+      "PROCEDURE ${1:Name}(${2:})",
+      "\t$0",
+      "RETURN"
+    ],
+    "description": "PROCEDURE ... RETURN"
+  },
+  "While loop (lowercase)": {
+    "prefix": [
+      "while",
+      "dowhile"
+    ],
+    "body": [
+      "do while ${1:cond}",
+      "\t$0",
+      "enddo"
+    ],
+    "description": "do while ... enddo loop"
+  },
+  "While loop (uppercase)": {
+    "prefix": [
+      "WHILE",
+      "DOWHILE"
+    ],
+    "body": [
+      "DO WHILE ${1:cond}",
+      "\t$0",
+      "ENDDO"
+    ],
+    "description": "DO WHILE ... ENDDO loop"
+  },
+  "Switch block (lowercase)": {
+    "prefix": [
+      "switch"
+    ],
+    "body": [
+      "switch ${1:expr}",
+      "\tcase ${2:value}",
+      "\t\t$0",
+      "\totherwise",
+      "\t\t${3}",
+      "endswitch"
+    ],
+    "description": "switch ... case ... endswitch block"
+  },
+  "Switch block (uppercase)": {
+    "prefix": [
+      "SWITCH"
+    ],
+    "body": [
+      "SWITCH ${1:expr}",
+      "\tCASE ${2:value}",
+      "\t\t$0",
+      "\tOTHERWISE",
+      "\t\t${3}",
+      "ENDSWITCH"
+    ],
+    "description": "SWITCH ... CASE ... ENDSWITCH block"
+  },
+  "Do Case block (lowercase)": {
+    "prefix": [
+      "docase"
+    ],
+    "body": [
+      "do case",
+      "\tcase ${1:cond}",
+      "\t\t$0",
+      "\totherwise",
+      "\t\t${2}",
+      "endcase"
+    ],
+    "description": "do case ... endcase block"
+  },
+  "Do Case block (uppercase)": {
+    "prefix": [
+      "DOCASE"
+    ],
+    "body": [
+      "DO CASE",
+      "\tCASE ${1:cond}",
+      "\t\t$0",
+      "\tOTHERWISE",
+      "\t\t${2}",
+      "ENDCASE"
+    ],
+    "description": "DO CASE ... ENDCASE block"
+  },
+  "Enum block (lowercase)": {
+    "prefix": [
+      "enum"
+    ],
+    "body": [
+      "enum ${1:Name}",
+      "\t$0",
+      "endenum"
+    ],
+    "description": "enum ... endenum block"
+  },
+  "Enum block (uppercase)": {
+    "prefix": [
+      "ENUM"
+    ],
+    "body": [
+      "ENUM ${1:Name}",
+      "\t$0",
+      "ENDENUM"
+    ],
+    "description": "ENUM ... ENDENUM block"
+  },
+  "Class (lowercase)": {
+    "prefix": [
+      "class"
+    ],
+    "body": [
+      "create class ${1:Name}",
+      "\t$0",
+      "endclass"
+    ],
+    "description": "create class ... endclass block"
+  },
+  "Class (uppercase)": {
+    "prefix": [
+      "CLASS"
+    ],
+    "body": [
+      "CREATE CLASS ${1:Name}",
+      "\t$0",
+      "ENDCLASS"
+    ],
+    "description": "CREATE CLASS ... ENDCLASS block"
+  },
+  "Method definition (lowercase)": {
+    "prefix": [
+      "methoddef"
+    ],
+    "body": [
+      "method ${1:Name}(${2:}) class ${3:ClassName}",
+      "\t${4}",
+      "return ${0}"
+    ],
+    "description": "method ... class ... (definition outside class)"
+  },
+  "Method definition (uppercase)": {
+    "prefix": [
+      "METHODDEF"
+    ],
+    "body": [
+      "METHOD ${1:Name}(${2:}) CLASS ${3:ClassName}",
+      "\t${4}",
+      "RETURN ${0}"
+    ],
+    "description": "METHOD ... CLASS ... (definition outside class)"
+  },
+  "Method (lowercase)": {
+    "prefix": [
+      "method"
+    ],
+    "body": [
+      "method ${1:Name}(${2:})$0"
+    ],
+    "description": "method declaration"
+  },
+  "Method (uppercase)": {
+    "prefix": [
+      "METHOD"
+    ],
+    "body": [
+      "METHOD ${1:Name}(${2:})$0"
+    ],
+    "description": "METHOD declaration"
+  },
+  "For/Next loop (lowercase)": {
+    "prefix": [
+      "fornext"
+    ],
+    "body": [
+      "for ${1:i} := ${2:1} to ${3:n}",
+      "\t$0",
+      "next"
+    ],
+    "description": "for ... next loop"
+  },
+  "For/Next loop (uppercase)": {
+    "prefix": [
+      "FORNEXT"
+    ],
+    "body": [
+      "FOR ${1:i} := ${2:1} TO ${3:n}",
+      "\t$0",
+      "NEXT"
+    ],
+    "description": "FOR ... NEXT loop"
+  },
+  "Begin Sequence (lowercase)": {
+    "prefix": [
+      "beginseq"
+    ],
+    "body": [
+      "begin sequence",
+      "\t${1}",
+      "recover using ${2:oErr}",
+      "\t${3}",
+      "end sequence$0"
+    ],
+    "description": "begin sequence ... recover ... end sequence block"
+  },
+  "Begin Sequence (uppercase)": {
+    "prefix": [
+      "BEGINSEQ"
+    ],
+    "body": [
+      "BEGIN SEQUENCE",
+      "\t${1}",
+      "RECOVER USING ${2:oErr}",
+      "\t${3}",
+      "END SEQUENCE$0"
+    ],
+    "description": "BEGIN SEQUENCE ... recover ... END SEQUENCE block"
+  },
+  "Static function (lowercase)": {
+    "prefix": [
+      "staticfunction"
+    ],
+    "body": [
+      "static function ${1:Name}(${2:})",
+      "\t${3}",
+      "return ${0}"
+    ],
+    "description": "static function ... return"
+  },
+  "Static function (uppercase)": {
+    "prefix": [
+      "STATICFUNCTION"
+    ],
+    "body": [
+      "STATIC FUNCTION ${1:Name}(${2:})",
+      "\t${3}",
+      "RETURN ${0}"
+    ],
+    "description": "STATIC FUNCTION ... RETURN"
+  },
+  "Static procedure (lowercase)": {
+    "prefix": [
+      "staticprocedure"
+    ],
+    "body": [
+      "static procedure ${1:Name}(${2:})",
+      "\t$0",
+      "return"
+    ],
+    "description": "static procedure ... return"
+  },
+  "Static procedure (uppercase)": {
+    "prefix": [
+      "STATICPROCEDURE"
+    ],
+    "body": [
+      "STATIC PROCEDURE ${1:Name}(${2:})",
+      "\t$0",
+      "RETURN"
+    ],
+    "description": "STATIC PROCEDURE ... RETURN"
+  },
+  "Main procedure (lowercase)": {
+    "prefix": [
+      "main"
+    ],
+    "body": [
+      "procedure Main()",
+      "\t$0",
+      "return"
+    ],
+    "description": "entry point procedure Main"
+  },
+  "Main procedure (uppercase)": {
+    "prefix": [
+      "MAIN"
+    ],
+    "body": [
+      "PROCEDURE Main()",
+      "\t$0",
+      "RETURN"
+    ],
+    "description": "entry point PROCEDURE Main"
+  },
+  "Local variable (lowercase)": {
+    "prefix": [
+      "local"
+    ],
+    "body": [
+      "local ${1:cVar} := ${2:NIL}$0"
+    ],
+    "description": "local variable declaration"
+  },
+  "Local variable (uppercase)": {
+    "prefix": [
+      "LOCAL"
+    ],
+    "body": [
+      "LOCAL ${1:cVar} := ${2:NIL}$0"
+    ],
+    "description": "LOCAL variable declaration"
+  },
+  "Open table (lowercase)": {
+    "prefix": [
+      "use"
+    ],
+    "body": [
+      "use ${1:file} alias ${2:alias} shared new$0"
+    ],
+    "description": "use ... alias ... shared new"
+  },
+  "Open table (uppercase)": {
+    "prefix": [
+      "USE"
+    ],
+    "body": [
+      "USE ${1:file} ALIAS ${2:alias} SHARED NEW$0"
+    ],
+    "description": "USE ... ALIAS ... SHARED NEW"
+  },
+  "Seek and test (lowercase)": {
+    "prefix": [
+      "seek"
+    ],
+    "body": [
+      "seek ${1:key}",
+      "if found()",
+      "\t$0",
+      "endif"
+    ],
+    "description": "seek ... if found() ... endif"
+  },
+  "Seek and test (uppercase)": {
+    "prefix": [
+      "SEEK"
+    ],
+    "body": [
+      "SEEK ${1:key}",
+      "IF FOUND()",
+      "\t$0",
+      "ENDIF"
+    ],
+    "description": "SEEK ... IF FOUND() ... ENDIF"
+  },
+  "Replace (lowercase)": {
+    "prefix": [
+      "replace"
+    ],
+    "body": [
+      "replace ${1:field} with ${2:value}$0"
+    ],
+    "description": "replace ... with ..."
+  },
+  "Replace (uppercase)": {
+    "prefix": [
+      "REPLACE"
+    ],
+    "body": [
+      "REPLACE ${1:field} WITH ${2:value}$0"
+    ],
+    "description": "REPLACE ... WITH ..."
+  },
+  "Append blank (lowercase)": {
+    "prefix": [
+      "appendblank"
+    ],
+    "body": [
+      "append blank$0"
+    ],
+    "description": "append blank record"
+  },
+  "Append blank (uppercase)": {
+    "prefix": [
+      "APPENDBLANK"
+    ],
+    "body": [
+      "APPEND BLANK$0"
+    ],
+    "description": "APPEND BLANK record"
+  },
+  "Say/Get (lowercase)": {
+    "prefix": [
+      "sayget"
+    ],
+    "body": [
+      "@ ${1:row}, ${2:col} say ${3:\"Label:\"} get ${4:var}$0"
+    ],
+    "description": "@ ... say ... get ..."
+  },
+  "Say/Get (uppercase)": {
+    "prefix": [
+      "SAYGET"
+    ],
+    "body": [
+      "@ ${1:row}, ${2:col} SAY ${3:\"Label:\"} GET ${4:var}$0"
+    ],
+    "description": "@ ... SAY ... GET ..."
+  },
+  "Read (lowercase)": {
+    "prefix": [
+      "read"
+    ],
+    "body": [
+      "read$0"
+    ],
+    "description": "read pending GETs"
+  },
+  "Read (uppercase)": {
+    "prefix": [
+      "READ"
+    ],
+    "body": [
+      "READ$0"
+    ],
+    "description": "READ pending GETs"
+  },
+  "Include directive": {
+    "prefix": [
+      "#include"
+    ],
+    "body": [
+      "#include \"${1:std.ch}\"$0"
+    ],
+    "description": "#include header"
+  },
+  "Define directive": {
+    "prefix": [
+      "#define"
+    ],
+    "body": [
+      "#define ${1:NAME} ${2:value}$0"
+    ],
+    "description": "#define constant"
+  },
+  "Ifdef directive": {
+    "prefix": [
+      "#ifdef"
+    ],
+    "body": [
+      "#ifdef ${1:NAME}",
+      "\t$0",
+      "#endif"
+    ],
+    "description": "#ifdef ... #endif block"
+  },
+  "Ifndef directive": {
+    "prefix": [
+      "#ifndef"
+    ],
+    "body": [
+      "#ifndef ${1:NAME}",
+      "\t$0",
+      "#endif"
+    ],
+    "description": "#ifndef ... #endif block"
+  },
+  "Command directive": {
+    "prefix": [
+      "#command"
+    ],
+    "body": [
+      "#command ${1:pattern} => ${2:result}$0"
+    ],
+    "description": "#command translation rule"
+  },
+  "Xcommand directive": {
+    "prefix": [
+      "#xcommand"
+    ],
+    "body": [
+      "#xcommand ${1:pattern} => ${2:result}$0"
+    ],
+    "description": "#xcommand translation rule"
+  },
+  "Code block": {
+    "prefix": [
+      "codeblock"
+    ],
+    "body": [
+      "{|${1:x}| ${2:expr}}$0"
+    ],
+    "description": "code block {|params| expr}"
+  },
+  "Print (?)": {
+    "prefix": [
+      "print"
+    ],
+    "body": [
+      "? ${1:expr}$0"
+    ],
+    "description": "? console output"
+  }
+}
