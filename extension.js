@@ -1,6 +1,56 @@
 const vscode = require( 'vscode' );
 
 const rtl = new Map( require( './data/functions.json' ).map( f => [ f.name.toUpperCase(), f ] ) );
+const rgbLiteral = /\b0[xX]([0-9A-Fa-f]{6})\b/g;
+
+function byte( value )
+{
+   return Math.max( 0, Math.min( 255, Math.round( value * 255 ) ) );
+}
+
+function colorProvider()
+{
+   return {
+      provideDocumentColors( doc )
+      {
+         const colors = [];
+
+         for( const match of doc.getText().matchAll( rgbLiteral ) )
+         {
+            const rgb = match[1];
+            const value = Number.parseInt( rgb, 16 );
+            const range = new vscode.Range(
+               doc.positionAt( match.index ),
+               doc.positionAt( match.index + match[0].length )
+            );
+
+            colors.push( new vscode.ColorInformation( range, new vscode.Color(
+               ( ( value >> 16 ) & 0xFF ) / 255,
+               ( ( value >> 8 ) & 0xFF ) / 255,
+               ( value & 0xFF ) / 255,
+               1
+            ) ) );
+         }
+         return colors;
+      },
+
+      provideColorPresentations( color, context )
+      {
+         const original = context.document.getText( context.range );
+         const prefix = original.startsWith( '0X' ) ? '0X' : '0x';
+         const digits = original.slice( 2 );
+         const upper = digits === digits.toUpperCase() && digits !== digits.toLowerCase();
+         let rgb = [ color.red, color.green, color.blue ]
+            .map( component => byte( component ).toString( 16 ).padStart( 2, '0' ) )
+            .join( '' );
+
+         if( upper )
+            rgb = rgb.toUpperCase();
+
+         return [ new vscode.ColorPresentation( prefix + rgb ) ];
+      }
+   };
+}
 
 function funcs()
 {
@@ -48,6 +98,8 @@ function signature( f, active )
 function activate( context )
 {
    context.subscriptions.push(
+      vscode.languages.registerColorProvider( 'xdev', colorProvider() ),
+
       vscode.languages.registerCompletionItemProvider( 'xdev', {
          provideCompletionItems( doc, pos )
          {

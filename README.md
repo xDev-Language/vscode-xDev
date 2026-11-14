@@ -15,6 +15,7 @@ Minimal VS Code extension providing xDev language support with xBase compatible 
   - Hover with signature and description
 - Smart code snippets for common constructs
 - Language configuration with auto-closing pairs and bracket matching
+- Inline colour swatches and the native VS Code colour picker for xDev RGB literals such as `0x267373`
 
 ## Install from Marketplace
 
