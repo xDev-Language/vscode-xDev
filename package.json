@@ -2,7 +2,7 @@
   "name": "vscode-xdev",
   "displayName": "xDev",
   "description": "Syntax highlighting, function hints and snippets for the xDev language (xBase compatible).",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "publisher": "xDev-Language",
   "icon": "media/xdev-128.png",
   "license": "GPL-3.0-only",
